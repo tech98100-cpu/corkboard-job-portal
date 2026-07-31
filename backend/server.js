@@ -38,4 +38,12 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// When running on Vercel, the platform calls the exported app directly as a
+// serverless function — it should NOT call app.listen(). Locally (npm run dev
+// or npm start), we still want the normal listening server.
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+module.exports = app;
